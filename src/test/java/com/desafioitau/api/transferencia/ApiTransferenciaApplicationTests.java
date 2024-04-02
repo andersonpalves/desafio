@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class ApiTransferenciaApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 

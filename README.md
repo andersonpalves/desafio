@@ -126,3 +126,30 @@ http://localhost:8080/transferencia
             {
                 "id_transferencia": "410bb5b0-429f-46b1-8621-b7da101b1e28"
             }
+
+## Como executar?
+  + Requisitos obrigatórios: Docker e Java 17
+  + Executar o metodo POST na rota /transferencia com o seguinte payload
+    + Body
+
+              {
+                "idCliente": "bcdd1048-a501-4608-bc82-66d7b4db3600",
+                "valor": 500.00,
+                "conta": {
+                    "idOrigem": "d0d32142-74b7-4aca-9c68-838aeacef96b",
+                    "idDestino": "41313d7b-bd75-4c75-9dea-1f4be434007f"
+                }
+              }
+    + Response
+
+              {
+                "idTransferencia": "8aa3fba0-dd9c-4216-b9fb-ff913d4105a6",
+              }
+  + Regras de negócio:
+    + Valida se o cliente que vai receber a transferência existe passando o idCliente na API de Cadastro
+    + Buscar dados da conta origem passando idConta na API de Contas; 
+    + Validar se a conta corrente está ativa; 
+    + Validar se o cliente tem saldo disponível na conta corrente para realizar a transferência; 
+    + A API de contas retornará o limite diário do cliente, caso o valor seja zero ou menor do que o valor da transferência a ser realizada, a transferência não poderá ser realizada;
+    + Após a transferência é necessário notificar o BACEN de forma síncrona que a transação foi concluída com sucesso. A API do BACEN tem controle de rate limit e pode retornar 429 em caso de chamadas que excedam o limite;
+    + Impedir que falhas momentâneas das dependências da aplicação impactem a experiência do cliente

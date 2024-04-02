@@ -10,6 +10,8 @@ public class NotificacaoRequestDTO {
     private double valor;
     private Conta conta;
 
+    @Getter
+    @Setter
     public static class Conta {
         private String idOrigem;
         private String idDestino;
